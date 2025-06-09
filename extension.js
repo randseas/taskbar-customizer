@@ -1,13 +1,83 @@
 /* extension.js
-  * TaskbarCustomizer - GNOME Shell Extension
+ * TaskbarCustomizer - GNOME Shell Extension
  */
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import St from "gi://St";
 import GLib from "gi://GLib";
 import Clutter from "gi://Clutter";
+import AccountsService from "gi://AccountsService";
+import GObject from "gi://GObject";
+import { Avatar } from "resource:///org/gnome/shell/ui/userWidget.js";
+import {
+  QuickSettingsItem,
+  SystemIndicator,
+} from "resource:///org/gnome/shell/ui/quickSettings.js";
 
-export default class HideAccessibilityMenu extends Extension {
+const QuickSettingsMenu = Main.panel.statusArea.quickSettings;
+
+const AvatarItem = GObject.registerClass(
+  class AvatarItem extends QuickSettingsItem {
+    _init(settings) {
+      super._init({
+        style_class: "avatar-button",
+        canFocus: true,
+        hasMenu: false,
+      });
+      this._user = AccountsService.UserManager.get_default().get_user(
+        GLib.get_user_name()
+      );
+      this._container = new St.BoxLayout({
+        y_align: Clutter.ActorAlign.CENTER,
+        x_align: Clutter.ActorAlign.CENTER,
+        vertical: false,
+      });
+      this.set_y_align(Clutter.ActorAlign.CENTER);
+      this.set_child(this._container);
+      const iconSize =
+        settings.avatarSize % 2 === 0
+          ? settings.avatarSize + 1
+          : settings.avatarSize;
+      this._avatarPicture = new Avatar(this._user, {
+        iconSize,
+        styleClass: "avatar-picture",
+      });
+      this._avatarPicture.style = `icon-size: ${iconSize}px;`;
+      this._container.add_child(this._avatarPicture);
+
+     this._container.reactive = true; // Etkileşim için önemli
+this._container.connect('button-press-event', (actor, event) => {
+  GLib.spawn_command_line_async('gnome-control-center users');
+  return Clutter.EVENT_STOP;
+});
+      this._user.connectObject("changed", this._updateAvatar.bind(this), this);
+    }
+    _updateAvatar() {
+      this._avatarPicture.update();
+    }
+  }
+);
+const Indicator = GObject.registerClass(
+  class Indicator extends SystemIndicator {
+    _init(settings) {
+      super._init();
+      this.settings = settings;
+      this._load();
+    }
+    _load() {
+      this._avatarItem = new AvatarItem(this.settings);
+      this.systemItemsBox = QuickSettingsMenu._system._systemItem.child;
+      if (this.systemItemsBox) {
+        this.systemItemsBox.insert_child_at_index(this._avatarItem, 0);
+      }
+      this.connect("destroy", () => {
+        this._avatarItem.destroy();
+      });
+    }
+  }
+);
+
+export default class TaskbarCustomizer extends Extension {
   _timeoutId = 0;
   _customDateButton = null;
   _openId = 0;
@@ -15,6 +85,9 @@ export default class HideAccessibilityMenu extends Extension {
   _showSeconds = false;
 
   enable() {
+    if (QuickSettingsMenu._system) {
+      this._indicator = new Indicator({ avatarSize: 43 });
+    }
     Main.panel.statusArea["a11y"].container.hide();
     const quickSettings = Main.panel.statusArea.quickSettings;
     const dateMenu = Main.panel.statusArea.dateMenu;
@@ -104,6 +177,10 @@ export default class HideAccessibilityMenu extends Extension {
     );
   }
   disable() {
+    if (this._indicator) {
+      this._indicator.destroy();
+      this._indicator = null;
+    }
     Main.panel.statusArea["a11y"].container.show();
     if (this._timeoutId) {
       GLib.source_remove(this._timeoutId);

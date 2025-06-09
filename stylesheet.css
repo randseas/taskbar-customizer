@@ -74,3 +74,14 @@
   font-size: 16px !important;
   color: white !important;
 }
+
+.avatar-picture {
+  border-radius: 99px;
+}
+.avatar-button {
+  border-radius: 99px;
+  border: 2.5px solid rgba(255, 255, 255, 0.1) !important;
+}
+.avatar-button:hover {
+  border: 2.5px solid rgba(255, 255, 255, 0.15) !important;
+}
