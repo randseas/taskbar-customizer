@@ -1,8 +1,6 @@
 /* extension.js
- *
- * Bu örnek GNOME Shell extension için sağ alt köşede animasyonlu tarih menüsü açar.
+  * TaskbarCustomizer - GNOME Shell Extension
  */
-
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import St from "gi://St";
@@ -22,6 +20,13 @@ export default class HideAccessibilityMenu extends Extension {
     const dateMenu = Main.panel.statusArea.dateMenu;
     if (!quickSettings || !dateMenu) return;
     quickSettings.actor.add_style_class_name("quickSettings-wrapper");
+    quickSettings.menu.connect("open-state-changed", (menu, isOpen) => {
+      if (isOpen) {
+        quickSettings.actor.add_style_class_name("open");
+      } else {
+        quickSettings.actor.remove_style_class_name("open");
+      }
+    });
     const rightBox = Main.panel._rightBox;
     dateMenu.container.visible = false;
     dateMenu.container.set_opacity(0);
