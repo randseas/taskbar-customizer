@@ -1,0 +1,76 @@
+/* Quick Settings wrapper */
+.quickSettings-wrapper {
+  background-color: rgba(255, 255, 255, 0) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0) inset !important;
+  border-radius: 12px !important;
+  padding: 5px !important;
+  margin-bottom: 1.25px !important;
+  margin-top: 1.25px !important;
+  margin-right: 1px !important;
+  margin-left: 2px !important;
+  display: flex !important;
+  align-items: center !important;
+  color: white;
+}
+.quickSettings-wrapper:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset !important;
+  outline: none;
+}
+.quickSettings-wrapper:focus {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
+  outline: none;
+}
+/* Date Menu wrapper
+.dateMenu-wrapper {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: inset 0 0 5px blue !important;
+  border-radius: 10px !important;
+  margin-bottom: 2px !important;
+  margin-top: 2px !important;
+  display: flex !important;
+  align-items: center !important;
+  color: white;
+}
+.dateMenu-wrapper:hover {
+  border-radius: 10px !important;
+  box-shadow: inset 0 0 5px red !important;
+}
+.dateMenu-wrapper:focus {
+  border-radius: 10px !important;
+  outline: 2px solid #ffa500 !important;
+  box-shadow: inset 0 0 5px red !important;
+} */
+
+.custom-date-wrapper {
+  margin-right: 6px !important;
+  margin-top: 4.25px !important;
+  margin-bottom: 4.25px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  padding-bottom: 5px !important;
+  padding-top: 5px !important;
+  border-radius: 9.15px !important;
+  background-color: rgba(255, 255, 255, 0) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0) inset !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: right !important;
+}
+.custom-date-wrapper:hover {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  outline: none !important;
+}
+.custom-date-wrapper:focus {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  outline: none !important;
+}
+.custom-date-label {
+  font-size: 16px !important;
+  color: white !important;
+}

@@ -1,0 +1,9 @@
+{
+  "description": "Applet to customize the taskbar in GNOME Shell.",
+  "name": "Taskbar Customizer",
+  "shell-version": ["48"],
+  "url": "https://github.com/randseas/taskbarcustomizer",
+  "uuid": "taskbarcustomizer@randseas.github.com",
+  "domain": "taskbarcustomizer",
+  "version": 0.1
+}
