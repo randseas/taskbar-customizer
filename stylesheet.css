@@ -77,10 +77,20 @@
 
 .avatar-picture {
   border-radius: 99px;
+  flex-shrink: 0; 
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 .avatar-button {
+  flex-shrink: 0; 
   border-radius: 99px;
   border: 2.5px solid rgba(255, 255, 255, 0.1) !important;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 .avatar-button:hover {
   border: 2.5px solid rgba(255, 255, 255, 0.15) !important;

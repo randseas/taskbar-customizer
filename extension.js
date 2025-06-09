@@ -31,25 +31,23 @@ const AvatarItem = GObject.registerClass(
         y_align: Clutter.ActorAlign.CENTER,
         x_align: Clutter.ActorAlign.CENTER,
         vertical: false,
+        style: "height: 100%; width: 100%;",
       });
       this.set_y_align(Clutter.ActorAlign.CENTER);
       this.set_child(this._container);
       const iconSize =
-        settings.avatarSize % 2 === 0
-          ? settings.avatarSize + 1
-          : settings.avatarSize;
+        37;
       this._avatarPicture = new Avatar(this._user, {
         iconSize,
         styleClass: "avatar-picture",
       });
       this._avatarPicture.style = `icon-size: ${iconSize}px;`;
       this._container.add_child(this._avatarPicture);
-
-     this._container.reactive = true; // Etkileşim için önemli
-this._container.connect('button-press-event', (actor, event) => {
-  GLib.spawn_command_line_async('gnome-control-center users');
-  return Clutter.EVENT_STOP;
-});
+      this._container.reactive = true;
+      this._container.connect("button-press-event", (actor, event) => {
+        GLib.spawn_command_line_async("gnome-control-center users");
+        return Clutter.EVENT_STOP;
+      });
       this._user.connectObject("changed", this._updateAvatar.bind(this), this);
     }
     _updateAvatar() {
